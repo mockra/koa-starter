@@ -1,0 +1,29 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "find ./test -name '*_test.js' | xargs mocha -AR spec --compilers js:babel-register"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.3.13",
+    "babel-register": "^6.3.13",
+    "bcrypt-nodejs": "0.0.3",
+    "kcors": "^1.0.1",
+    "koa": "^2.0.0-alpha.3",
+    "koa-bodyparser": "^3.0.0",
+    "koa-convert": "^1.2.0",
+    "koa-router": "^7.0.0",
+    "lodash": "^3.10.1",
+    "rest-serializer": "^1.1.0",
+    "thinky": "^2.2.3"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4",
+    "supertest": "^1.1.0"
+  }
+}
