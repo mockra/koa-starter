@@ -10,6 +10,7 @@ exports.index = async (ctx, next) => {
 exports.create = async (ctx, next) => {
   const user = new User(ctx.request.body.user)
   await user.hashPassword()
+  await user.generateToken()
 
   const existing = await User.filter({email: user.email}).count().execute()
   if (existing) ctx.throw(422, 'User with that email already exists.')

@@ -37,12 +37,15 @@ User.define('hashPassword', function () {
   })
 })
 
-User.pre('save', async function (next) {
-  while (!this.token ||
-    await User.filter({token: this.token}).count().execute()) {
-    this.token = crypto.randomBytes(16).toString('hex')
-  }
-  next()
+User.define('generateToken', function () {
+  const user = this
+  return new Promise(async (resolve, reject) => {
+    while (!user.token ||
+      await User.filter({token: user.token}).count().execute()) {
+      user.token = crypto.randomBytes(16).toString('hex')
+    }
+    resolve()
+  })
 })
 
 module.exports = User

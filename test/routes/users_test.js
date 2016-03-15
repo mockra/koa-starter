@@ -10,7 +10,7 @@ describe('Users Routes', function () {
         .expect(201)
         .end( (err, res) => {
           expect(err).to.not.exist
-          expect(res.body.token).to.exist
+          expect(res.body.user.username).to.eql('tester')
           done()
         })
     })
@@ -30,6 +30,7 @@ describe('Users Routes', function () {
       this.user = new User({
         email: 'test@example.com', password: 'foobar'})
       await this.user.hashPassword()
+      await this.user.generateToken()
       await this.user.save()
       done()
     })
@@ -37,21 +38,21 @@ describe('Users Routes', function () {
     it('returns error for no user', async function (done) {
       request(app.listen())
         .post('/login')
-        .send({ email: 'fake@example.com' })
+        .send({user: { email: 'fake@example.com' }})
         .expect(401, done)
     })
 
     it('returns error for invalid password', async function (done) {
       request(app.listen())
         .post('/login')
-        .send({ email: 'test@example.com', password: 'foobar2' })
+        .send({user: { email: 'test@example.com', password: 'foobar2' }})
         .expect(401, done)
     })
 
     it('returns token for valid details', async function (done) {
       request(app.listen())
         .post('/login')
-        .send({ email: 'test@example.com', password: 'foobar' })
+        .send({user: { email: 'test@example.com', password: 'foobar' }})
         .expect(200)
         .end( (err, res) => {
           expect(err).to.not.exist
